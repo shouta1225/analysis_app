@@ -1,0 +1,14 @@
+FROM python:3.9-slim
+WORKDIR /app
+
+# FastAPIに必要なモジュールのインストール
+RUN pip install -U pip\
+  pip install fastapi\
+  pip install "uvicorn[standard]"
+
+# sqlite3に必要なモジュールをインストール
+# RUN pip install sqlite3
+
+# GiNZAに必要なモジュールをインストール
+RUN pip install -U ginza https://github.com/megagonlabs/ginza/releases/download/latest/ja_ginza_electra-latest-with-model.tar.gz\
+  pip install numpy

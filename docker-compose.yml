@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  # React
+  frontend:
+    container_name: frontend
+    build: "./frontend/"
+    ports: 
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app/
+    command: sh -c "npm start"
+
+  # FastAPI
+  backend:
+    container_name: backend
+    build: "./backend/"
+    ports: 
+    # 左ポート番号(ローカルホストのポート番号):右ポート番号(dockerコンテナ側のポート番号)
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/
+    command: sh -c "uvicorn analysis_ginza:app --reload --host 0.0.0.0 --port 8000"

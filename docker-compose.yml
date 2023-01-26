@@ -1,19 +1,22 @@
 version: '3.9'
+
 services:
   # React
   frontend:
     container_name: frontend
     build: "./frontend/"
+    tty: true
     ports: 
       - "3000:3000"
     volumes:
       - ./frontend:/app/
-    command: sh -c "npm start"
+    command: sh -c "npm install && npm start"
 
   # FastAPI
   backend:
     container_name: backend
     build: "./backend/"
+    tty: true
     ports: 
     # 左ポート番号(ローカルホストのポート番号):右ポート番号(dockerコンテナ側のポート番号)
       - "8000:8000"

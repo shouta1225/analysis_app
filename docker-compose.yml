@@ -10,7 +10,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app/
-    command: sh -c "npm install && ginpm start"
+    command: sh -c "npm install && npm start"
 
   # FastAPI
   backend:

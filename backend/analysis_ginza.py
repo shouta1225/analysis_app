@@ -111,13 +111,14 @@ def create_text(text: TextModel):
         # もし、stopwordが1単語に含まれていなかった場合
         if compare == 0:
           # 取得したい文章の単語の中でベクトル化したい単語リスト
-          cleaning_words.append([str(token.text) + ',' + str(token.lemma_) + ',' + str(token.pos_)+ ',' + str(token.tag_)+ '\n'])
+          cleaning_words.append([str(token.text),str(token.lemma_),str(token.pos_),str(token.tag_)])
     # print(cleaning_words)
 
     # 改行がリスト間に挿入され、結合する
-    cleaning_words.insert(0, ["テキスト,レンマ,品詞,品詞詳細\n"])
+    cleaning_words.insert(0, ["テキスト","レンマ","品詞","品詞詳細"])
     print(cleaning_words)
 
+    
     # ファイル作成
     with open('./data/cleaning_words.csv','w') as g:
       writer = csv.writer(g)

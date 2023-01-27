@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css"
 import { useEffect,useState } from "react";
 import axios from 'axios';
-import {saveAs} from 'file-saver'
 
 
 const App = () => {

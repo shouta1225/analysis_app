@@ -53,6 +53,8 @@ const App = () => {
       .then((response) => {
         const blob = new Blob([response.data], {type: 'text/csv;charset=utf-8;'});
         saveAs(blob, 'response.csv');
+        console.log(response);
+        console.log(blob);
       })
       .catch((error) => {
         console.log(error);

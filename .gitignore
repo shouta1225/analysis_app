@@ -1,3 +1,4 @@
 # node_modules以下全て
 node_modules/
 .DS_Store
+backend/data/cleaning_words.csv

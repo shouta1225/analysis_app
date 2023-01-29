@@ -1,3 +1,5 @@
 # node_modules以下全て
 node_modules/
 .DS_Store
+cleaning_words.csv
+__pycache__

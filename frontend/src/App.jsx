@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css"
 import { useEffect,useState } from "react";
 import axios from 'axios';
+import { saveAs } from 'file-saver';
 
 
 const App = () => {
@@ -50,11 +51,10 @@ const App = () => {
         responseType:"blob"
       })
       .then((response) => {
-        const csv_url = URL.createObjectURL( new Blob([response.data], { type: "text/csv" }) );
-        // setResponseCSV(csv_url);
+        const blob = new Blob([response.data], {type: 'text/csv;charset=utf-8;'});
+        saveAs(blob, 'response.csv');
         console.log(response);
-        console.log(csv_url);
-        
+        console.log(blob);
       })
       .catch((error) => {
         console.log(error);

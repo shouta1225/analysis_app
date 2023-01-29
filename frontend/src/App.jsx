@@ -63,10 +63,10 @@ const App = () => {
     }
     // テキストを持っていないが、ファイルを持っている場合
     else if(processingText === '' && fileInputText !== undefined){
-      // // show loading modal
-      // // this.setState({isLoading: true});
-      // const params = new FormData();
-      // params.append('file', fileInputText);
+      // show loading modal
+      // this.setState({isLoading: true});
+      const params = new FormData();
+      params.append('file', fileInputText);
       // axios.post('http://0.0.0.0:8000', params,{headers:{'content-type':'multipart/form-data',},})
       // .then((result) => {
       //   // this.setState({isLoading:false});
@@ -146,7 +146,7 @@ const App = () => {
           </div>
           <div className="select_click_contents">
             {/* ファイルの選択 */}
-            <input type="file" accept=".txt" name="file" id="file" onChange={onFileInputChange}  />
+            <input type="file" accept=".txt" name="file" id="file" onChange={onFileInputChange} multiple />
             {/* 文章チェック機能 */}
             <input type="button" name="check" value="チェック" id="check" onClick={onClickSendText} />
             {/* テキスト削除、ファイル削除機能 */}

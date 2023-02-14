@@ -6,12 +6,13 @@ import { saveAs } from 'file-saver';
 
 
 const App = () => {
-  // useState定義
   // テキストエリアのuseStateを定義
-  const [processingText, setProcessingText] = useState('');
+  const [processingTextL, setProcessingTextL] = useState('');
+  const [processingTextR, setProcessingTextR] = useState('');
 
   // ファイル選択エリアのuseStateを定義(初期値は)
-  const [fileInputText, setFileInputText] = useState();
+  //　とりあえずのフロントエンドなので、未使用
+  // const [fileInputText, setFileInputText] = useState();
 
   // FastAPIから返ってきたcsvファイルを保存するためのuseState
   // const [responseCSV, setResponseCSV] = useState();
@@ -19,7 +20,7 @@ const App = () => {
   /* 関数の定義 */
   // 入力した値(processingText)をuseStateを使って変更するための関数
   const onChangeProcessingText = (event) => setProcessingText(event.target.value);
-
+  const onChangeProcessingTextR = (event)
   // ファイルの選択(e.target.files→ファイル名他ファイルの情報が入っている)
   const onFileInputChange = (event) => {
     // ファイル選択がキャンセルされた場合はundefined
@@ -29,18 +30,8 @@ const App = () => {
     });
   }
 
-  // const onFileInputChange = (e) => {
-  //   let selectedFile = e.target.files
-  //   console.log(e.target.files)
-  // }
-  // http://backend:8000
-
-
   // checkボタンをクリックした際にテキストエリアまたはファイル選択によるテキストをバックエンドに送るための関数
   const onClickSendText = () => {
-    // alert(processingText)
-    // alert(fileInputText)
-
     // テキスト、ファイル共に持っていない場合はクリックするとalertが返される
     if (processingText === '' && fileInputText === undefined) alert('ファイルの選択、またはテキストを入力してください');
 
@@ -66,9 +57,12 @@ const App = () => {
       // 複数のファイルを /apiFiles にPOSTする
       const formData = new FormData();
       formData.append('file', fileInputText);
-      axios.post('/api/files', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+      axios.post('/api/files', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
         .then((response) => {
-          // 複数のcsvファイルを保存する
           const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
           saveAs(blob, 'response.csv');
           console.log(response);
@@ -146,7 +140,7 @@ const App = () => {
           </div>
           <div className="select_click_contents">
             {/* ファイルの選択 */}
-            <input type="file" accept=".txt" name="file" id="file" onChange={onFileInputChange} multiple />
+            {/* <input type="file" accept=".txt" name="file" id="file" onChange={onFileInputChange} multiple /> */}
             {/* 文章チェック機能 */}
             <input type="button" name="check" value="チェック" id="check" onClick={onClickSendText} />
             {/* テキスト削除、ファイル削除機能 */}

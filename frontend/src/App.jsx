@@ -31,8 +31,48 @@ const App = () => {
         responseType: "Application/json"
       })
         .then((response) => {
-          console.log('success');
-          console.log(response);
+          var data = response.data.back_text;
+          console.log(data);
+          var list = document.getElementById('word_list');
+          for (var key in data) {
+            var details = document.createElement('details');
+            var summary = document.createElement('summary');
+            summary.innerHTML = key+' '+ data[key].count;
+            var table = document.createElement('table');
+            var tr = document.createElement('tr');
+            var th1 = document.createElement('th');
+            var th2 = document.createElement('th');
+            var th3 = document.createElement('th');
+            var th4 = document.createElement('th');
+            th1.innerHTML = '単語';
+            th2.innerHTML = 'レンマ';
+            th3.innerHTML = '品詞';
+            th4.innerHTML = '品詞細分類';
+            tr.appendChild(th1);
+            tr.appendChild(th2);
+            tr.appendChild(th3);
+            tr.appendChild(th4);
+            table.appendChild(tr);
+            for (var i = 0; i < data[key].mor.length; i++) {
+              var tr = document.createElement('tr');
+              var td1 = document.createElement('td');
+              var td2 = document.createElement('td');
+              var td3 = document.createElement('td');
+              var td4 = document.createElement('td');
+              td1.innerHTML = data[key].mor[i].split(',')[0];
+              td2.innerHTML = data[key].mor[i].split(',')[1];
+              td3.innerHTML = data[key].mor[i].split(',')[2];
+              td4.innerHTML = data[key].mor[i].split(',')[3];
+              tr.appendChild(td1);
+              tr.appendChild(td2);
+              tr.appendChild(td3);
+              tr.appendChild(td4);
+              table.appendChild(tr);
+            }
+            details.appendChild(summary);
+            details.appendChild(table);
+            list.appendChild(details);
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -65,13 +105,14 @@ const App = () => {
 
   const onClickCommentary = () => {
     // ページスクロール
+    // [ToDo] innerHeightを使ってスクロールするようにしたい
     window.scrollTo(0, 1000);
   };
 
   return (
     <>
       <body>
-        <div class='phase1'>
+        <div className='phase1'>
           <header>
             <p id='title'>テキストデータ前処理アプリ</p>
             <nav className="menu">
@@ -124,8 +165,8 @@ const App = () => {
             </div>
           </form>
         </div>
-        <div class='phase2'>
-          <div class='show_word' id='show_word'></div>
+        <div className='phase2'>
+          <div className='word_list' id='word_list'></div>
         </div>
       </body>
     </>

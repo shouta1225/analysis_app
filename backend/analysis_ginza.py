@@ -129,12 +129,15 @@ def create_text(text: TextModel):
     return res
 
 @app.post("/api/files")
+def test_code():
+  print('success')
+  return 'success'
 '''
 1.一つのファイルまたはテキストから取得した文章をGiNZA(オプションA単語,B単語,C単語)を用いて形態素解析&Cleaningを行う。
 2.その単語集をtoken.textを基準にカウントする
 3.その結果を、上位順に表を作って表す。
+A,B,C単語でGiNZA形態素解析
 '''
-'''A,B,C単語でGiNZA形態素解析'''
 
 # 表記ゆれ防止用
 import unicodedata
@@ -162,7 +165,7 @@ shape_text = []
 url = r"(https?|ftp)(:\/\/[-_\.!~*\'()a-zA-Z0-9;\/?:\@&=\+\$,%#]+)"
 
 # stopwordのパス
-stop_word = "../data/Japanese_stopwords.txt"
+stop_word = "data/Japanese_stopwords.txt"
 
 '''stopwordの準備'''
 with open(stop_word,'r') as f:

@@ -227,7 +227,7 @@ for mode in ['A', 'B', 'C']:
             # 取得したい文章の単語の中でベクトル化したい単語リスト
             cleaning_words.append([str(token.text) + ',' + str(token.lemma_) + ',' + str(token.pos_)+ ',' + str(token.tag_) + '\n'])
             # 分かち書きした単語のみを取得
-            separation_words.append(token.text) # 単語だけのリストを作って、後にそれぞれの単語をカウントする
+            # separation_words.append(token.text) # 単語だけのリストを作って、後にそれぞれの単語をカウントする
       # print(cleaning_words)
   # 改行がリスト間に挿入され、結合する
   cleaning_words.insert(0, ["テキスト,レンマ,品詞,品詞詳細'\n'"])
@@ -237,7 +237,7 @@ for mode in ['A', 'B', 'C']:
 
 # 一度テキストのみを入れるリストを作る→数を数える→もし、形態素結果が必要ならテキストのみリストと形態素結果の中で一致するものを取得する
   rank_words = []
-  count = collections.Counter(separation_words)
+  count = collections.Counter(cleaning_words)
   for k,v in sorted(count.items(), key=itemgetter(1), reverse=True):
     rank_words.append(k + ',' + str(v))
     # print("%s = %d個" %(k, v))

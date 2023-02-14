@@ -14,88 +14,57 @@ const App = () => {
   //　とりあえずのフロントエンドなので、未使用
   // const [fileInputText, setFileInputText] = useState();
 
-  // FastAPIから返ってきたcsvファイルを保存するためのuseState
-  // const [responseCSV, setResponseCSV] = useState();
-
-  /* 関数の定義 */
-  // 入力した値(processingText)をuseStateを使って変更するための関数
-  const onChangeProcessingText = (event) => setProcessingText(event.target.value);
-  const onChangeProcessingTextR = (event)
-  // ファイルの選択(e.target.files→ファイル名他ファイルの情報が入っている)
-  const onFileInputChange = (event) => {
-    // ファイル選択がキャンセルされた場合はundefined
-    const fileInputText = event.target.files[0];
-    setFileInputText(() => {
-      return fileInputText ? fileInputText : undefined;
-    });
-  }
+  const onChangeProcessingTextL = (event) => setProcessingTextL(event.target.value);
+  const onChangeProcessingTextR = (event) => setProcessingTextR(event.target.value);
 
   // checkボタンをクリックした際にテキストエリアまたはファイル選択によるテキストをバックエンドに送るための関数
   const onClickSendText = () => {
-    // テキスト、ファイル共に持っていない場合はクリックするとalertが返される
-    if (processingText === '' && fileInputText === undefined) alert('ファイルの選択、またはテキストを入力してください');
-
-    // ファイルを持っていないが、テキストを持っている場合
-    else if (fileInputText === undefined && processingText !== '') {
+    // テキストがふたつ入力されていない場合はクリックするとAlertが返される
+    if (processingTextL === '' && processingTextR === ''){
+      alert('テキストを入力してください');
+    }
+    // テキストがふたつ入力されている場合はバックエンドに送信される
+    else if (processingTextL !== '' && processingTextR !== ''){
       axios.post('/api', {
-        front_text: processingText,
-        responseType: "blob"
+        front_text: processingTextL,
+        front_text: processingTextR,
+        responseType: "Application/json"
       })
         .then((response) => {
-          const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
-          saveAs(blob, 'response.csv');
+          console.log('success');
           console.log(response);
-          console.log(blob);
         })
         .catch((error) => {
           console.log(error);
         });
       alert('テキストを送信しました')
-    }
-    // テキストを持っていないが、ファイルを持っている場合
-    else if (processingText === '' && fileInputText !== undefined) {
-      // 複数のファイルを /apiFiles にPOSTする
-      const formData = new FormData();
-      formData.append('file', fileInputText);
-      axios.post('/api/files', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-        .then((response) => {
-          const blob = new Blob([response.data], { type: 'text/csv;charset=utf-8;' });
-          saveAs(blob, 'response.csv');
-          console.log(response);
-          console.log(blob);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      alert('ファイルを送信しました')
-    }
-    else if (processingText !== '' && fileInputText !== undefined) {
-      console.log(processingText)
-      console.log(fileInputText)
-      alert('ファイルかテキストのどちらかだけを選択してください。');
-    }
-    // 全てに当てはまらない場合は、エラーアラートを返す
-    else {
-      alert('error')
-    }
-
+    }  
     // checkボタンを押すとテキスト内の値を消す(残った方がいい場合もあるかもだからちょっと考え所)
-    setProcessingText("");
+    setProcessingTextL("");
+    setProcessingTextR("");
   };
 
-
-  // 削除ボタンを押した時、テキストエリアまたはファイル選択の削除を行う
-  const onClickDelete = () => {
-    if (setProcessingText !== '') {
+  // [ToDo] もっと良い書き方があると思うが、とりあえずはこれで
+  // 左側のテキストエリアの削除ボタンを押した際にテキストエリアの値を削除する関数
+  const onClickDeleteL = () => {
+    if (setProcessingTextL !== '') {
       // テキストエリアの値を削除
-      setProcessingText('');
+      setProcessingTextL('');
     }
     else return;
   };
+   
+  // 右側のテキストエリアの削除ボタンを押した際にテキストエリアの値を削除する関数
+  const onClickDeleteR = () => {
+    if (setProcessingTextR !== '') {
+      // テキストエリアの値を削除
+      setProcessingTextR('');
+    }
+    else return;
+  };
+
+
+
 
   return (
     <>
@@ -136,7 +105,8 @@ const App = () => {
         <form className="fetchform">
           <div className="text-contents">
             {/* テキスト入力 */}
-            <textarea name="text" cols="50" rows="20" placeholder="テキストを入力してください" method="post" value={processingText} onChange={onChangeProcessingText}></textarea>
+            <textarea name="text" cols="50" rows="20" placeholder="テキストを入力してください" method="post" value={processingTextL} onChange={onChangeProcessingTextL}></textarea>
+            <textarea name="text" cols="50" rows="20" placeholder="テキストを入力してください" method="post" value={processingTextR} onChange={onChangeProcessingTextR}></textarea>
           </div>
           <div className="select_click_contents">
             {/* ファイルの選択 */}
@@ -144,7 +114,8 @@ const App = () => {
             {/* 文章チェック機能 */}
             <input type="button" name="check" value="チェック" id="check" onClick={onClickSendText} />
             {/* テキスト削除、ファイル削除機能 */}
-            <input type="button" name="delete" value="削除" id="delete" onClick={onClickDelete} />
+            <input type="button" name="delete" value="削除" id="delete" onClick={onClickDeleteL} />
+            <input type="button" name="delete" value="削除" id="delete" onClick={onClickDeleteR} />
             {/* 解説ページへの遷移ボタン */}
             <input type="button" name="commentary" value="解説" id="commentary" />
           </div>

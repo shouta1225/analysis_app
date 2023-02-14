@@ -20,7 +20,7 @@ const App = () => {
   // checkボタンをクリックした際にテキストエリアまたはファイル選択によるテキストをバックエンドに送るための関数
   const onClickSendText = () => {
     // テキストがふたつ入力されていない場合はクリックするとAlertが返される
-    if (processingTextL === '' && processingTextR === '') {
+    if (processingTextL === '' || processingTextR === '') {
       alert('テキストを入力してください');
     }
     // テキストがふたつ入力されている場合はバックエンドに送信される
@@ -108,7 +108,7 @@ const App = () => {
     // [ToDo] innerHeightを使ってスクロールするようにしたい
     window.scrollTo(0, 1000);
   };
-
+ 
   return (
     <>
       <body>
@@ -174,4 +174,3 @@ const App = () => {
 }
 
 export default App;
-

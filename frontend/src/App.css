@@ -95,3 +95,14 @@ footer p{
   width: 95%;
   height: 95%;
 }
+summary::after{
+  content: "+";
+  positon: absolute;
+  right: 20px;
+  transition: all 0.3s;
+}
+details[open] summary::after{
+  content: "-";
+  transition: all 0.3s;
+}
+

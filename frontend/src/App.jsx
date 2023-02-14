@@ -26,8 +26,8 @@ const App = () => {
     // テキストがふたつ入力されている場合はバックエンドに送信される
     else if (processingTextL !== '' && processingTextR !== ''){
       axios.post('/api', {
-        front_text: processingTextL,
-        front_text: processingTextR,
+        front_textL: processingTextL,
+        front_textR: processingTextR,
         responseType: "Application/json"
       })
         .then((response) => {
@@ -63,8 +63,10 @@ const App = () => {
     else return;
   };
 
-
-
+  const onClickCommentary = () => {
+    // ページスクロール
+    window.scrollTo(0, 1000);
+  };
 
   return (
     <>
@@ -117,7 +119,7 @@ const App = () => {
             <input type="button" name="delete" value="削除" id="delete" onClick={onClickDeleteL} />
             <input type="button" name="delete" value="削除" id="delete" onClick={onClickDeleteR} />
             {/* 解説ページへの遷移ボタン */}
-            <input type="button" name="commentary" value="解説" id="commentary" />
+            <input type="button" name="commentary" value="解説" id="commentary" onClick={onClickCommentary} />
           </div>
         </form>
 
